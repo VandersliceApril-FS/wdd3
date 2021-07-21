@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>List Name</title>
+</head>
+<body>
+    <div class="container">
+        <h1>List Name</h1>
+        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#add-item-modal">Add Item</button>
+
+        
+        <div class="modal" id="add-item-modal" >
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Add Item</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <fieldset class="mb-3">
+                            <legend>Add Item</legend>
+                            <div class="mb-3">
+                                <label for="item-name" class="form-label">Item Name</label>
+                                <input type="text" class="form-control" id="item-name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="item-cost" class="form-label">Cost</label>
+                                <input type="number" class="form-control" id="item-cost" placeholder="0.00" min="0" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="item-store" class="form-label">Store</label>
+                                <input type="text" class="form-control" id="item-store" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="item-name" class="form-label">Item Name</label>
+                                <input type="text" class="form-control" id="item-name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="item-quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="item-quantity" min="1" required>
+                            </div>
+                        </fieldset>
+                        <div class="d-grid gap-2 col-6 mx-auto mb-3">
+                            <button class="btn btn-dark" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div> <!-- modal-body -->
+              </div> <!-- modal-content -->
+            </div> <!-- modal-dialog -->
+        </div> <!-- add-list-item-modal -->
+        
+        
+        
+
+        <ul class="container" id="list-container">
+            
+        </ul>
+        
+    </div>
+    
+
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
