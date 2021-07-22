@@ -6,7 +6,7 @@ class Main{
 
         this.formModal = document.querySelector('#add-item-modal');
         let form = document.querySelector('form');
-        form.addEventListener('submit', e => e.preventDefault());
+        // form.addEventListener('submit', e => e.preventDefault());
         
         let submitBtn = form.querySelector('#modal-submit-btn');
         submitBtn.addEventListener("click", e => this.createListItem());
@@ -25,18 +25,16 @@ class Main{
         
         // items wil be added to the listObject array
         this.currentList.push(newItem);
-        this.displayListItems(this.currentList);
+        this.displayListItem(newItem);
         document.querySelector('form').reset();
-        let myModal = document.getElementById('#add-item-modal');
-        // myModal.hide();
         console.log(`Current List: ${this.currentList}`);
         
     }
 
-    displayListItems(arr){
+    displayListItem(item){
         let mainList = document.querySelector('#list-container');
-        arr.forEach(item => {
-            let htmlToAdd = 
+        
+        let htmlToAdd = 
         `
         <li class="list-group-item">
             <div class="row">
@@ -50,7 +48,6 @@ class Main{
         </li>
         `;
         mainList.insertAdjacentHTML('afterbegin', htmlToAdd);
-        })  
     }
 
     
