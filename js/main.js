@@ -7,12 +7,34 @@ class Main{
         this.listTotal = 0;
         console.log(`beginning list total: ${this.listTotal}`);
 
+        let submitTitleBtn = document.querySelector('#title-submit-btn');
+        submitTitleBtn.addEventListener('click', e => this.createList());
+
         this.formModal = document.querySelector('#add-item-modal');
         let form = document.querySelector('form');
         
         let submitBtn = form.querySelector('#modal-submit-btn');
         submitBtn.addEventListener("click", e => this.createListItem());
     }
+
+    createList(){
+        let newList = new List();
+        newList.title = document.querySelector('#list-title-input').value;
+        this.displayListTitle(newList.title);
+    }
+
+    displayListTitle(title){
+        let titleContainer = document.querySelector('#list-title-container');
+        titleContainer.innerHTML = "";
+        let htmlToAdd = 
+        `
+            <h1 id="list-title" class="col">${title}</h1>
+            <button id="title-submit-btn" class="col-3 btn btn-outline-dark btn-sm" type="button">Edit</button>
+        `
+        titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
+    }
+
+
 
     getItemTotal(item){
             let itemTotal = Number(item.cost * item.quantity).toFixed(2);

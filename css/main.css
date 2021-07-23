@@ -5,3 +5,7 @@ p {
 .total{
     text-align: right;
 }
+
+#list-title{
+    font-size: medium;
+}

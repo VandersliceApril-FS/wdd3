@@ -8,15 +8,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     
     <link rel="stylesheet" href="css/main.css">
-    <title>Bootstrap</title>
+    <title>List Total</title>
 </head>
 <body>
     <div class="container">
-        <input class="form-control form-control-lg" type="text" placeholder="Enter List Name" aria-label=".form-control-lg example">
-        <!-- Button trigger modal -->
-        <div>
-            <button id="add-item-btn" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#add-item-modal">Add Item</button>
+        <div id="list-title-container" class="row m-2">
+            <input id="list-title-input" class="col form-control form-control-sm" type="text" placeholder="Enter List Name" aria-label=".form-control-sm example">
+            <button id="title-submit-btn" class="col-3 btn btn-dark btn-sm" type="button">submit</button>
         </div>
+        
+        <!-- Button to trigger modal -->
+        <button id="add-item-btn" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#add-item-modal">Add Item</button>
         
         <div class="modal fade" id="add-item-modal">
             <div class="modal-dialog modal-dialog-centered">
