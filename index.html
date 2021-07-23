@@ -12,12 +12,11 @@
 </head>
 <body>
     <div class="container">
-
-
         <input class="form-control form-control-lg" type="text" placeholder="Enter List Name" aria-label=".form-control-lg example">
         <!-- Button trigger modal -->
-        <button id="add-item-btn" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#add-item-modal">Add Item</button>
-
+        <div>
+            <button id="add-item-btn" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#add-item-modal">Add Item</button>
+        </div>
         
         <div class="modal fade" id="add-item-modal">
             <div class="modal-dialog modal-dialog-centered">
@@ -49,8 +48,6 @@
                         <div class="d-grid gap-2 col-6 mx-auto mb-3">
                             <button id="modal-submit-btn" class="btn btn-dark" data-bs-dismiss="modal" type="submit">Submit</button>
                         </div>
-                            
-                        
                     </form>
                 </div> <!-- modal-body -->
               </div> <!-- modal-content -->
@@ -58,22 +55,17 @@
         </div> <!-- add-list-item-modal -->
         
         
-        
-
         <ul class="container" id="list-container">
-            <li class="list-group-item">
-                <div class="row">
-                    <p  class="col">item name</p>
-                    <p class="col-3">$37.00</p>
-                </div>
-                <p>store name</p>
-               
-                <p class="col">Qty: 1</p>
-                <button class="col-3" id="more">...</button>
-            </li>
+          
             
         </ul>
-        <button id="clear-list-btn" class="btn btn-outline-danger">Clear List</button>
+        <section class="container">
+            <div id="total-container" class="row">
+                
+                
+                
+            </div>   
+        </section>
         
     </div>
     

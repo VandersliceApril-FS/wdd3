@@ -4,37 +4,35 @@ class Main{
         this.lists = [];
         this.currentList = [];
         this.listContainer = document.querySelector('#list-container');
+        this.listTotal = 0;
+        console.log(`beginning list total: ${this.listTotal}`);
 
         this.formModal = document.querySelector('#add-item-modal');
         let form = document.querySelector('form');
-        // form.addEventListener('submit', e => e.preventDefault());
-        let clearBtn = document.querySelector('#clear-list-btn');
-        clearBtn.addEventListener("click", e => this.clearList());
         
         let submitBtn = form.querySelector('#modal-submit-btn');
         submitBtn.addEventListener("click", e => this.createListItem());
-
-        const myStorage = window.localStorage
-        
-        this.savedList = Object.keys(localStorage);
-        
     }
 
-    getFromLocal(arr){
-        arr.forEach(item => {
-            const str = localStorage.getItem(item);
-
-            let parsedObj = JSON.parse(str);
-            this.savedList.push(parsedObj);
-        });
-
-        this.displayListItem(this.savedList);
-        
+    getItemTotal(item){
+            let itemTotal = Number(item.cost * item.quantity).toFixed(2);
+            console.log(`${Number(item.cost * item.quantity).toFixed(2)}`)
+            return itemTotal;
     }
 
-    saveToLocal(itemObject){
-        let newItemObject = JSON.stringify(itemObject);
-        localStorage.setItem(newItemObject, `${newItemObject.name}`);
+    displayTotal(){
+
+        //grab all children of #list-container with #item-total
+        let listTotalContainer = document.querySelector('#total-container');
+        this.resetHTML(listTotalContainer);
+
+        let htmlToAdd = 
+        `
+        <h3 class="col">Total</h3>
+        <h2  class="col total"><span>$ </span>${Number(this.listTotal).toFixed(2)}</h2>
+        `
+        listTotalContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
+
     }
 
     createListItem(){
@@ -47,31 +45,25 @@ class Main{
         newItem.store = document.querySelector('#item-store').value;
         newItem.quantity = Number(document.querySelector('#item-quantity').value);
         
-        
         // add the item to the currentList
         this.currentList.push(newItem);
-
-        // save the item to local storage
-        this.saveToLocal(newItem);
-
+        this.listTotal = Number(this.listTotal) + Number(this.getItemTotal(newItem));
+        console.log(this.listTotal);
+        
         // call the function to display items in the html
-        this.displayListItem(this.currentList);
-
-
+        this.displayListItems(this.currentList);
         document.querySelector('form').reset();
-        this.savedList.forEach(item => {
-            console.log(`Added Item: \rlocal storage: ${item.name}`);
-        });
+        this.displayTotal();
     }
 
-    resetListContainer(){
-        this.listContainer.innerHTML = "";
+    resetHTML(element){
+        element.innerHTML = "";
     }
 
 
-    displayListItem(arr){
+    displayListItems(arr){
         // reset list container to avoid duplicates
-        this.resetListContainer();
+        this.resetHTML(this.listContainer);
         
         // loop through the array and display each item in the html
         arr.forEach(item => {
@@ -80,12 +72,12 @@ class Main{
         <li class="list-group-item">
             <div class="row">
                 <p  class="col">${item.name}</p>
-                <p class="col-3">$ ${item.cost}</p>
+                <p class="col total">$ ${item.cost}</p>
             </div>
             <p>${item.store}</p>
         
             <p class="col">Qty: ${item.quantity}</p>
-            <button class="col-3" id="more">...</button>
+            <button class="btn btn-sm btn-outline-secondary col-3" id="more">...</button>
         </li>
         `;
         this.listContainer.insertAdjacentHTML('afterbegin', htmlToAdd);    
