@@ -28,8 +28,7 @@ class Main{
         titleContainer.innerHTML = "";
         let htmlToAdd = 
         `
-            <h1 id="list-title" class="col">${title}</h1>
-            <button id="title-submit-btn" class="col-3 btn btn-outline-dark btn-sm" type="button">Edit</button>
+            <h1 id="list-title" class="col display-4">${title}</h1>
         `
         titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
     }

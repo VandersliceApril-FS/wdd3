@@ -6,6 +6,13 @@ p {
     text-align: right;
 }
 
-#list-title{
-    font-size: medium;
+.btn-outline-dark{
+    border: none;
+}
+
+
+
+#spacer-row{
+    background: transparent;
+    height: 4rem;
 }
