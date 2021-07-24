@@ -17,6 +17,13 @@ class Main{
         submitBtn.addEventListener("click", e => this.createListItem());
     }
 
+    hideInstruction(){
+        let listInstruction = document.querySelector('#instruction');
+        if(this.currentList.length > 0) {
+            listInstruction.style.display = "none";
+        }
+    }
+
     createList(){
         let newList = new List();
         newList.title = document.querySelector('#list-title-input').value;
@@ -61,13 +68,15 @@ class Main{
         let newItem = new ListItemDO();
 
         //gather the data from the form
-        newItem.name = document.querySelector('#item-name').value;
-        newItem.cost = Number(document.querySelector('#item-cost').value).toFixed(2);
-        newItem.store = document.querySelector('#item-store').value;
-        newItem.quantity = Number(document.querySelector('#item-quantity').value);
+        newItem.name = document.querySelector('#name-field').value;
+        newItem.cost = Number(document.querySelector('#cost-field').value).toFixed(2);
+        newItem.store = document.querySelector('#store-field').value;
+        newItem.quantity = Number(document.querySelector('#quantity-field').value);
+        
         
         // add the item to the currentList
         this.currentList.push(newItem);
+        this.hideInstruction();
         this.listTotal = Number(this.listTotal) + Number(this.getItemTotal(newItem));
         console.log(this.listTotal);
         
