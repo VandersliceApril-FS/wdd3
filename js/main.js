@@ -5,6 +5,7 @@ class Main{
         this.currentList = [];
         this.listContainer = document.querySelector('#list-container');
         this.listTotal = 0;
+        this.main = document.querySelector('main');
         console.log(`beginning list total: ${this.listTotal}`);
 
         let submitTitleBtn = document.querySelector('#title-submit-btn');
@@ -15,19 +16,57 @@ class Main{
         
         let submitBtn = form.querySelector('#modal-submit-btn');
         submitBtn.addEventListener("click", e => this.createListItem());
+
     }
 
-    hideInstruction(){
-        let listInstruction = document.querySelector('#instruction');
-        if(this.currentList.length > 0) {
-            listInstruction.style.display = "none";
+    moveAddButton(){
+        let htmlToAdd;
+        let listSection = document.querySelector('#list-section');
+        
+        if(this.currentList.length == 0) {
+            htmlToAdd = 
+            `
+            <div id="add-btn-container" class="text-center">
+                <button id="add-item-btn" type="button" class="btn btn-dark btn-lg rounded-circle" style="margin-top: 7rem; margin-bottom: 1rem" data-bs-toggle="modal" data-bs-target="#add-item-modal">+</button>
+                <p>Add an item to this list.</p>
+            </div>
+            `
+            listSection.border = "3px solid yellow";
+            listSection.overflow = "scroll";
+            listSection.height = "0";
+        } else if(this.currentList.length > 0) {
+            document.querySelector('#add-btn-container').remove();
+            
+            htmlToAdd = 
+            `
+            <!-- Button to trigger modal -->
+            <div id="add-btn-container" class="d-flex justify-content-end">
+                <button id="add-item-btn" type="button" class="btn btn-dark btn-lg rounded-circle" data-bs-toggle="modal" data-bs-target="#add-item-modal">+</button>
+            </div>
+            `
+            listSection.style.border = '3px solid yellow';
+            listSection.style.overflow = 'scroll';
+            listSection.style.height = '21rem';
         }
+
+        this.main.insertAdjacentHTML('beforeend', htmlToAdd);
     }
 
     createList(){
         let newList = new List();
+        this.lists.push(newList);
         newList.title = document.querySelector('#list-title-input').value;
         this.displayListTitle(newList.title);
+        this.moveAddButton();
+
+        let htmlToAdd = 
+        `
+        <section id="total-container"  class="d-flex w-100 justify-content-between mt-3 fixed-bottom">
+                
+        </section>
+        `
+        this.main.insertAdjacentHTML('beforeend', htmlToAdd);
+        this.displayTotal();
     }
 
     displayListTitle(title){
@@ -43,24 +82,35 @@ class Main{
 
 
     getItemTotal(item){
-            let itemTotal = Number(item.cost * item.quantity).toFixed(2);
-            console.log(`${Number(item.cost * item.quantity).toFixed(2)}`)
-            return itemTotal;
+        let itemTotal = Number(item.cost * item.quantity).toFixed(2);
+        return itemTotal;
     }
 
     displayTotal(){
-
-        //grab all children of #list-container with #item-total
         let listTotalContainer = document.querySelector('#total-container');
         this.resetHTML(listTotalContainer);
-
-        let htmlToAdd = 
-        `
-        <h3 class="col">Total</h3>
-        <h2  class="col total"><span>$ </span>${Number(this.listTotal).toFixed(2)}</h2>
-        `
+        let htmlToAdd = "";
+        if(this.listTotal > 0) {
+            let splitCost = this.listTotal.toString();
+            let dollars = splitCost.split('.')[0];
+            let coins = splitCost.split('.')[1];
+            if(coins.length == 1) {
+                coins = coins + '0';
+            }
+           
+            htmlToAdd = 
+            `
+            <h3>Total</h3>
+            <h3 class="total"><span id="dollar-sign">$</span>${Number(dollars)}<span id="cents">.${Number(coins)}</span></h3>
+            `
+        } else {
+            htmlToAdd = 
+            `
+            <h3>Total</h3>
+            <h3 class="total"><span id="dollar-sign">$</span>0</h3>
+            `
+        } 
         listTotalContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
-
     }
 
     createListItem(){
@@ -76,9 +126,8 @@ class Main{
         
         // add the item to the currentList
         this.currentList.push(newItem);
-        this.hideInstruction();
+        this.moveAddButton();
         this.listTotal = Number(this.listTotal) + Number(this.getItemTotal(newItem));
-        console.log(this.listTotal);
         
         // call the function to display items in the html
         this.displayListItems(this.currentList);
@@ -99,15 +148,21 @@ class Main{
         arr.forEach(item => {
         let htmlToAdd = 
         `
-        <li class="list-group-item">
-            <div class="row">
-                <p  class="col">${item.name}</p>
-                <p class="col total">$ ${item.cost}</p>
+        <li class="list-group-item pb-0">
+            <div class="row justify-content-between">
+                <img class="col-3" src="" alt="">
+                <div id="item-info" class="col-8">
+                    <div class="d-flex w-100 justify-content-between mb-0">
+                        <h2 id="item-name">${item.name}</h2>
+                        <h2 id="item-cost">$ ${item.cost}</h2>
+                    </div>
+                    <p id="item-store">${item.store}</p>
+                    <p id="item-quantity">Qty: ${item.quantity}</p>
+                </div>
             </div>
-            <p>${item.store}</p>
-        
-            <p class="col">Qty: ${item.quantity}</p>
-            <button class="btn btn-sm btn-outline-secondary col-3" id="more">...</button>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-secondary border-0" id="more-btn"><i class="fas fa-ellipsis-h"></i></button>
+            </div>
         </li>
         `;
         this.listContainer.insertAdjacentHTML('afterbegin', htmlToAdd);    

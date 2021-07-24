@@ -1,17 +1,13 @@
-img {
-    background: #f5f5f5;
-    max-width: 60px;
-    max-height: 60px;
-    border: 1px solid green;
+body {
+    overflow: hidden;
+    margin: auto;
+
 }
 
 .total{
     text-align: right;
 }
 
-.btn-outline-dark{
-    border: none;
-}
 
 
 
@@ -20,13 +16,17 @@ img {
     height: 4rem;
 }
 
+
+
+
 /* LIST ITEM
 ============================================================== */
-#item-info{
-    border: 1px solid red;
+#item-info {
+    
+    padding: 0;
 }
 
-#item-name, #item-cost{
+#item-name, #item-cost {
     font-size: 1rem;
     text-transform: uppercase;
     font-weight: 300;
@@ -34,14 +34,29 @@ img {
     letter-spacing: 1px;
 }
 
-#item-store, #item-quantity{
+#item-cost{
+    text-align: right;
+}
+
+#item-store, #item-quantity {
     font-size: .8rem;
     margin-bottom: 0;
     font-weight: 300;
 }
 
-#more-btn-container{
-    height: 1rem;
+
+
+/* TOTAL
+============================================================== */
+#total-container {
+    border-top: 1px solid #000;
+    background-color: #fff;
+    height: 6rem; /* on mobile only */
+    padding: 0 1rem;
+}
+#total-container h3 {
+    margin-top: .5rem;
+    font-size: 1.2rem;
 }
 
 #dollar-sign {
@@ -52,15 +67,8 @@ img {
     font-size: 60%;
 }
 
-#cents{
+#cents {
     position: relative;
     top: -0.4em;
     font-size: 60%;
-}
-
-/* TOTAL
-============================================================== */
-#total-container h3{
-
-    font-size: 1.2rem;
 }
