@@ -1,7 +1,25 @@
 body {
     overflow: hidden;
     margin: auto;
+    font-weight: 300;
 }
+
+#item-photo-container {
+    width: calc(30% - .5rem);
+    height: 4rem;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin-right: .5rem;
+    object-fit: cover;
+
+}
+
+#item-photo {
+    height: 100%;
+}
+
+
 
 header {
     margin-top: .75rem;
@@ -28,7 +46,6 @@ header {
 
 #list-title {
     font-size: 1.2rem;
-    font-weight: 400;
 }
 
 .centered-button {
@@ -36,21 +53,24 @@ header {
     top: 50%;
     left: 50%;
     /* bring your own prefixes */
-    transform: translate(-50%, -50%);
-    
+    transform: translate(-50%, -50%);   
+}
+
+#add-btn-container p {
+    margin-top: .75rem;
+    font-size: .75rem;
 }
 
 /* LIST ITEM
 ============================================================== */
 #item-info {
-    
+    width: 70%;
     padding: 0;
 }
 
 #item-name, #item-cost {
     font-size: 1rem;
     text-transform: uppercase;
-    font-weight: 300;
     margin-bottom: 0;
     letter-spacing: 1px;
 }
@@ -72,16 +92,15 @@ header {
 #total-container {
     border-top: 1px solid #000;
     background-color: #fff;
-    height: 5rem; /* on mobile only */
+    height: 5rem;
     padding: 0 1rem;
 }
 #total-container h3 {
     margin-top: .5rem;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 #dollar-sign {
-    font-weight: 300;
     padding-right: .25rem;
     position: relative;
     top: -0.8em;

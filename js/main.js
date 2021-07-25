@@ -54,6 +54,9 @@ class Main{
         newItem.cost = Number(document.querySelector('#cost-field').value);
         newItem.store = document.querySelector('#store-field').value;
         newItem.quantity = Number(document.querySelector('#quantity-field').value);
+        newItem.imageSource = document.querySelector('#image-link').value;
+
+        console.log(`Image source: ${newItem.imageSource}`);
         
         
         // add the item to the currentList
@@ -89,16 +92,19 @@ class Main{
         let htmlToAdd = 
         `
         <li class="list-group-item pb-0">
-            <div class="row justify-content-between">
-                <img class="col-3" src="" alt="">
-                <div id="item-info" class="col-8">
+            <div class="d-flex justify-content-between">
+                <section id="item-photo-container">
+                    <img id="item-photo" src="${item.imageSource}" alt="item photo">
+                </section>
+                
+                <section id="item-info">
                     <div class="d-flex w-100 justify-content-between mb-0">
                         <h2 id="item-name">${item.name}</h2>
                         <h2 id="item-cost">$ ${Number(item.cost).toFixed(2)}</h2>
                     </div>
                     <p id="item-store">${item.store}</p>
                     <p id="item-quantity">Qty: ${item.quantity}</p>
-                </div>
+                </section>
             </div>
             <div class="d-flex justify-content-end">
                 <button class="btn btn-outline-dark btn-sm border-0" id="more-btn"><i class="fas fa-ellipsis-h"></i></button>
