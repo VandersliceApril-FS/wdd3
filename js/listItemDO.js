@@ -5,4 +5,8 @@ class ListItemDO{
         this.store = s;
         this.quantity = q;
     }
+
+    getItemTotal() {
+        return this.cost * this.quantity;
+    }
 }

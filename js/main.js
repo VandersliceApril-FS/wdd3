@@ -59,7 +59,7 @@ class Main{
         // add the item to the currentList
         this.currentList.push(newItem);
         this.moveAddButton();
-        this.listTotal = Number(this.listTotal) + Number(this.getItemTotal(newItem));
+        this.listTotal = Number(this.listTotal) + Number(newItem.getItemTotal());
         
         // call the function to display items in the html
         this.displayListItems(this.currentList);
@@ -72,18 +72,20 @@ class Main{
         titleContainer.innerHTML = "";
         let htmlToAdd = 
         `
-            <h1 id="list-title" class="col display-4">${title}</h1>
+            <h1 id="list-title" class="col">${title}</h1>
         `
         titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
     }
 
 
     displayListItems(arr){
-        // reset list container to avoid duplicates
+        // reset list container html to avoid duplicates
         this.resetHTML(this.listContainer);
+        console.log(this.currentList);
         
         // loop through the array and display each item in the html
         arr.forEach(item => {
+        console.log(item.name);
         let htmlToAdd = 
         `
         <li class="list-group-item pb-0">
@@ -99,7 +101,7 @@ class Main{
                 </div>
             </div>
             <div class="d-flex justify-content-end">
-                <button class="btn btn-outline-secondary border-0" id="more-btn"><i class="fas fa-ellipsis-h"></i></button>
+                <button class="btn btn-outline-dark btn-sm border-0" id="more-btn"><i class="fas fa-ellipsis-h"></i></button>
             </div>
         </li>
         `;
@@ -115,15 +117,10 @@ class Main{
         let htmlToAdd = 
         `
         <h3>Total</h3>
-        <h3 class="total"><span>$</span>${Number(this.listTotal)}</span></h3>
+        <h3 class="total"><span>$</span>${Number(this.listTotal).toFixed(2)}</span></h3>
         `
         listTotalContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
         
-    }
-
-    getItemTotal(item){
-        let itemTotal = Number(item.cost * item.quantity);
-        return itemTotal;
     }
 
     moveAddButton(){
@@ -133,12 +130,12 @@ class Main{
         if(this.currentList.length == 0) {
             htmlToAdd = 
             `
-            <div id="add-btn-container" class="text-center">
-                <button id="add-item-btn" type="button" class="btn btn-dark btn-lg rounded-circle" style="margin-top: 7rem; margin-bottom: 1rem" data-bs-toggle="modal" data-bs-target="#add-item-modal">+</button>
+            <div id="add-btn-container" class="text-center centered-button">
+                <button id="add-item-btn" type="button" class="btn btn-dark btn-lg rounded-circle" data-bs-toggle="modal" data-bs-target="#add-item-modal">+</button>
                 <p>Add an item to this list.</p>
             </div>
             `
-            // listSection.border = "3px solid yellow";
+            listSection.border = "3px solid yellow";
             listSection.overflow = "scroll";
             listSection.height = "0";
         } else if(this.currentList.length > 0) {
@@ -151,12 +148,12 @@ class Main{
                 <button id="add-item-btn" type="button" class="btn btn-dark btn-lg rounded-circle" data-bs-toggle="modal" data-bs-target="#add-item-modal">+</button>
             </div>
             `
-            // listSection.style.border = '3px solid yellow';
+            listSection.style.border = '3px solid yellow';
             listSection.style.overflow = 'scroll';
-            listSection.style.height = '21rem';
+            listSection.style.height = '20rem';
         }
 
-        this.main.insertAdjacentHTML('beforeend', htmlToAdd);
+        listSection.insertAdjacentHTML('afterend', htmlToAdd);
     }
 
     resetHTML(element){

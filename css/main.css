@@ -1,23 +1,44 @@
 body {
     overflow: hidden;
     margin: auto;
+}
 
+header {
+    margin-top: .75rem;
+    position: sticky;
+}
+
+#logo {
+    width: 4rem;
 }
 
 .total{
     text-align: right;
 }
 
-
-
-
-#spacer-row{
-    background: transparent;
-    height: 4rem;
+#list-title-input {
+    box-shadow: none;
+    margin-right: .5rem;
+    width: 70%;
 }
 
+#title-submit-btn {
+    width: calc(30% - .5rem);
+}
 
+#list-title {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
 
+.centered-button {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+    
+}
 
 /* LIST ITEM
 ============================================================== */
@@ -51,7 +72,7 @@ body {
 #total-container {
     border-top: 1px solid #000;
     background-color: #fff;
-    height: 6rem; /* on mobile only */
+    height: 5rem; /* on mobile only */
     padding: 0 1rem;
 }
 #total-container h3 {

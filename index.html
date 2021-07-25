@@ -13,11 +13,15 @@
 </head>
 <body>
     <div id="main" class="container">
-        <div id="spacer-row" class="row"></div>
-        <header class="mt-4 py-2 ">
-            <div id="list-title-container" class="row">
-                <input id="list-title-input" class="col form-control form-control-lg border-top-0 border-right-0 border-left-0" type="text" placeholder="Enter List Name" value="Items to Buy" aria-label=".form-control-lg example">
-                <button id="title-submit-btn" class="col-3 btn btn-outline-dark border-0" type="button">submit</button>
+        
+        <header>
+            <div class="d-flex justify-content-center mb-2">
+                <img src="images/list-total.png" class=" image-fluid" id="logo" alt="app logo">
+            </div>
+            
+            <div id="list-title-container" class="d-flex">
+                <input id="list-title-input" class="form-control" type="text" placeholder="Enter List Name" value="Items to Buy" aria-label=".form-control-lg example">
+                <button id="title-submit-btn" class="btn btn-outline-dark" type="button">submit</button>
             </div>
         </header>
         
@@ -62,7 +66,7 @@
             </div> <!-- modal-dialog -->
         </div> <!-- add-list-item-modal -->
         <main>
-            <section id="list-section" class="row mt-3">
+            <section id="list-section" class="row mt-1">
                 <ul class="list-group list-group-flush" id="list-container">
                 
                 </ul>
