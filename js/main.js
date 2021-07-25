@@ -38,7 +38,7 @@ class Main{
         `
         <section id="total-container"  class="d-flex w-100 justify-content-between mt-3 fixed-bottom">
             <h3>Total</h3>
-            <h3 class="total"><span id="dollar-sign">$</span>0</h3>
+            <h3 class="total"><span>$</span>0</h3>
         </section>
         `
         this.main.insertAdjacentHTML('beforeend', htmlToAdd);
@@ -111,20 +111,11 @@ class Main{
         let listTotalContainer = document.querySelector('#total-container');
         
         this.resetHTML(listTotalContainer);
-        if(this.listTotal !== 0) {
-            
-        } 
-        let splitCost = this.listTotal.toString();
-        let dollars = splitCost.split('.')[0];
-        let coins = splitCost.split('.')[1] || 0;
-        if(coins < 10) {
-            coins = coins + '0';
-        }
     
         let htmlToAdd = 
         `
         <h3>Total</h3>
-        <h3 class="total"><span id="dollar-sign">$</span>${Number(dollars)}<span id="cents">.${Number(coins)}</span></h3>
+        <h3 class="total"><span>$</span>${Number(this.listTotal)}</span></h3>
         `
         listTotalContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
         
