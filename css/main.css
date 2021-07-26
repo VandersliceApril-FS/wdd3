@@ -9,10 +9,9 @@ body {
     height: 4rem;
     overflow: hidden;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center;
     margin-right: .5rem;
     object-fit: cover;
-
 }
 
 #item-photo {
@@ -48,18 +47,12 @@ header {
     font-size: 1.2rem;
 }
 
-.centered-button {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    /* bring your own prefixes */
-    transform: translate(-50%, -50%);   
-}
-
-#add-btn-container p {
+#instructions {
     margin-top: .75rem;
+    padding-right: 1rem;
     font-size: .75rem;
 }
+
 
 /* LIST ITEM
 ============================================================== */
@@ -84,6 +77,12 @@ header {
     margin-bottom: 0;
     font-weight: 300;
 }
+
+#list-section {
+    height: 20rem;
+    overflow: scroll;
+}
+
 
 
 

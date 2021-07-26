@@ -1,13 +1,21 @@
 class ListItemDO{
-    constructor(n, c, s, q, img){
-        this.name = n;
-        this.cost = c;
-        this.store = s;
-        this.quantity = q;
-        this.imageSource = img;
+    constructor(){
+        this.name;
+        this.cost;
+        this.store;
+        this.quantity;
+        this.imageSource;
+        this.idNumber;
     }
 
-    getItemTotal() {
-        return this.cost * this.quantity;
+    getTotalCost() {
+        if(this.cost && this.quantity) {
+
+            return this.cost * this.quantity;
+        } else {
+            console.error("get total cost called with no cost and quantity",this.cost, this.quantity);
+            return 0;
+        }
+        
     }
 }
