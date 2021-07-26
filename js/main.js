@@ -63,8 +63,6 @@ class Main{
         }
         
         console.log(`${newItem.name}: ${newItem.getTotalCost()}`);
-
-      
         
         // add the item to the currentList
         this.currentList.push(newItem);
@@ -74,12 +72,8 @@ class Main{
         // update the list total
         this.getListTotal();
         this.displayTotal();
-        
-        
         // call the function to display items in the html
         this.displayListItems(this.currentList);
-        
-        
         document.querySelector('form').reset();
         this.toggleInstructions();
     }
@@ -130,8 +124,6 @@ class Main{
         let deleteButton = document.querySelector(`[data-js = "${item.idNumber}"]`);
         deleteButton.addEventListener("click", e => this.deleteItem(`${item.idNumber}`)); 
         });
-
-        
     }
 
     deleteItem(idNum){
