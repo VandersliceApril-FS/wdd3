@@ -12,27 +12,25 @@ class Main{
         submitTitleBtn.addEventListener('click', e => this.createList());
 
         this.formModal = document.querySelector('#add-item-modal');
-        let form = document.querySelector('form');
         
-        let submitBtn = form.querySelector('#modal-submit-btn');
+        
+        let submitBtn = this.formModal.querySelector('#modal-submit-btn');
         submitBtn.addEventListener("click", e => this.createListItem());
-
-        
-
     }
 
-    clearList(e){
-        localStorage.clear();
-        window.location.reload();
-        this.savedList.forEach(item => {
-            console.log(`Cleared List\r\nlocal storage: ${item.name}`);
-        });
+    markComplete(id) {
+        let itemToComplete = document.querySelector(`[data-js = "${this.currentList[id]}"]`)
+        itemToComplete.classList.toggle("completed");
     }
-
+    
     createList(){
+        
+        let listTitleField = document.querySelector('#list-title-input');
+       
+
         let newList = new List();
+        newList.title = listTitleField.value;
         this.lists.push(newList);
-        newList.title = document.querySelector('#list-title-input').value;
         this.displayListTitle(newList.title);
         this.displayAddButton();
 
@@ -96,48 +94,57 @@ class Main{
         
         // loop through the array and display each item in the html
         arr.forEach(item => {
-        console.log(item.name);
-        let htmlToAdd = 
-        `
-        <li class="list-group-item pb-0">
-            <div class="d-flex justify-content-between">
-                <section id="item-photo-container">
-                    <img id="item-photo" src="${item.imageSource}" alt="item photo">
-                </section>
-                
-                <section id="item-info">
-                    <div class="d-flex w-100 justify-content-between mb-0">
-                        <h2 id="item-name">${item.name}</h2>
-                        <h2 id="item-cost">$ ${Number(item.cost).toFixed(2)}</h2>
-                    </div>
-                    <p id="item-store">${item.store}</p>
-                    <p id="item-quantity">Qty: ${item.quantity}</p>
-                    
-                </section>
-            </div>
-            <div class="d-flex justify-content-end">
-                <button data-js="${item.idNumber}" class="btn btn-outline-dark btn-sm border-0" id="more-btn"><i class="fas fa-trash"></i></button>
-            </div>
-        </li>
-        `;
-        this.listContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
-        let deleteButton = document.querySelector(`[data-js = "${item.idNumber}"]`);
-        deleteButton.addEventListener("click", e => this.deleteItem(`${item.idNumber}`)); 
+            console.log(item.name);
+            let htmlToAdd = 
+                `   
+                <li class="list-group-item pb-0" data-js="${item.idNumber}">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="isComplete">
+                            <label class="form-check-label" for="isComplete">
+                                <div class="d-flex">
+                                    <section id="item-photo-container">
+                                        <img id="item-photo" src="${item.imageSource}" alt="item photo">
+                                    </section>
+                                    <section id="item-info" class="w-100" >
+                                        <div class="d-flex justify-content-between mb-0">
+                                            <h2 id="item-name">${item.name}</h2>
+                                            <h2 id="item-cost">$ ${item.cost}</h2>
+                                        </div>
+                                        <p id="item-store">${item.store}</p>
+                                        <p id="item-quantity">Qty: ${item.quantity}</p>
+                                    </section>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button data-js="${item.idNumber}" class="btn btn-outline-dark btn-sm border-0" id="more-btn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </li>
+                `;
+            this.listContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
+            let deleteButton = document.querySelector(`[data-js = "${item.idNumber}"]`);
+            deleteButton.addEventListener("click", e => this.deleteItem(`${item.idNumber}`));
+
+            // let completedItem = document.querySelector(``);
+            // completedItem.addEventListener('click', e => {
+            //     this.markComplete(item.idNumber);
+            // });
         });
     }
 
     deleteItem(idNum){
         this.currentList.splice(idNum, 1);
         
-        this.toggleInstructions();
+        
         this.displayListItems(this.currentList);
         
         this.getListTotal();
         this.displayTotal();
+        this.toggleInstructions();
     }
 
     displayTotal(){
-        debugger
+        
         if(!this.listTotal){
             console.error("no list total", this.listTotal);
         }

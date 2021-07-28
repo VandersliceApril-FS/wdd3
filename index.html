@@ -19,9 +19,11 @@
                 <img src="images/list-total.png" class=" image-fluid" id="logo" alt="app logo">
             </div>
             
-            <div id="list-title-container" class="d-flex">
-                <input id="list-title-input" class="form-control" type="text" placeholder="Give your list a name" aria-label=".form-control-lg example">
-                <button id="title-submit-btn" class="btn btn-outline-dark" type="button">create</button>
+            <div id="list-title-container">
+                <form class="d-flex">
+                    <input id="list-title-input" class="form-control" type="text" placeholder="Give your list a name"  aria-label=".form-control-lg" required>
+                    <button id="title-submit-btn" class="btn btn-outline-dark" type="button">create</button>
+                </form>
             </div>
         </header>
         
@@ -72,7 +74,7 @@
         <main>
             <section id="list-section" class="row mt-1">
                 <ul class="list-group list-group-flush" id="list-container">
-                
+                    
                 </ul>
             </section>
 
