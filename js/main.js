@@ -8,12 +8,12 @@ class Main{
         this.main = document.querySelector('main');
         console.log(`beginning list total: ${this.listTotal}`);
 
+        // listen for title submission
         let submitTitleBtn = document.querySelector('#title-submit-btn');
         submitTitleBtn.addEventListener('click', e => this.createList());
 
+        // listen for form submission
         this.formModal = document.querySelector('#add-item-modal');
-        
-        
         let submitBtn = this.formModal.querySelector('#modal-submit-btn');
         submitBtn.addEventListener("click", e => this.createListItem());
     }
@@ -24,10 +24,7 @@ class Main{
     }
     
     createList(){
-        
         let listTitleField = document.querySelector('#list-title-input');
-       
-
         let newList = new List();
         newList.title = listTitleField.value;
         this.lists.push(newList);
@@ -50,20 +47,23 @@ class Main{
         let newItem = new ListItemDO();
 
         //gather the data from the form
-        newItem.name = document.querySelector('#name-field').value;
+        
+        newItem.name =  document.querySelector('#name-field').value;
         newItem.cost = Number(document.querySelector('#cost-field').value);
         newItem.store = document.querySelector('#store-field').value;
         newItem.quantity = Number(document.querySelector('#quantity-field').value);
+        
         if(document.querySelector('#image-link').value == "") {
             newItem.imageSource = 'images/box.jpg';
         } else {
             newItem.imageSource = document.querySelector('#image-link').value;
         }
         
-        console.log(`${newItem.name}: ${newItem.getTotalCost()}`);
         
         // add the item to the currentList
         this.currentList.push(newItem);
+        
+        console.log(this.currentList.length)
         // give the new item an ID number using the item's index in the array
         newItem.idNumber = this.currentList.indexOf(newItem);
 
@@ -90,7 +90,7 @@ class Main{
     displayListItems(arr){
         // reset list container html to avoid duplicates
         this.resetHTML(this.listContainer);
-        console.log(this.currentList);
+        
         
         // loop through the array and display each item in the html
         arr.forEach(item => {
@@ -108,7 +108,7 @@ class Main{
                                     <section id="item-info" class="w-100" >
                                         <div class="d-flex justify-content-between mb-0">
                                             <h2 id="item-name">${item.name}</h2>
-                                            <h2 id="item-cost">$ ${item.cost}</h2>
+                                            <h2 id="item-cost">$ ${item.getTotalCost().toFixed(2)}</h2>
                                         </div>
                                         <p id="item-store">${item.store}</p>
                                         <p id="item-quantity">Qty: ${item.quantity}</p>
@@ -125,10 +125,7 @@ class Main{
             let deleteButton = document.querySelector(`[data-js = "${item.idNumber}"]`);
             deleteButton.addEventListener("click", e => this.deleteItem(`${item.idNumber}`));
 
-            // let completedItem = document.querySelector(``);
-            // completedItem.addEventListener('click', e => {
-            //     this.markComplete(item.idNumber);
-            // });
+           
         });
     }
 
@@ -155,7 +152,7 @@ class Main{
         let htmlToAdd = 
         `
         <h3>Total</h3>
-        <h3 class="total"><span>$</span>${this.listTotal.toFixed(2)}</span></h3>
+        <h3 class="total"><span>$</span>${Number(this.listTotal).toFixed(2)}</span></h3>
         `
         listTotalContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
         
@@ -164,7 +161,7 @@ class Main{
     getListTotal(){
         this.listTotal = 0;
         this.currentList.forEach(item => {
-            this.listTotal += item.getTotalCost();
+            this.listTotal = this.listTotal + item.getTotalCost();
         });
     }
 
