@@ -154,7 +154,21 @@ class List{
                 let checkbox = listItem.querySelector('#isComplete');
                 checkbox.addEventListener("input", e => this.markComplete(item));
             })
-        };
+        } else {
+            this.toggleInstructions();
+        }
+
+    }
+
+    deleteItem(itemToDelete){
+        this.items.splice(itemToDelete.idNumber, 1);
+        
+        
+        this.displayListItems();
+        
+        this.getListTotal();
+        this.displayTotal();
+        this.toggleInstructions();
     }
 
     editListTitle() {
@@ -190,9 +204,18 @@ class List{
         });
     }
 
+    markComplete(itemToComplete) {
+
+        let markCompleted = document.querySelector(`[data-js = "${itemToComplete.idNumber}"]`);
+        markCompleted.classList.add("completed");
+        
+    }
+
     toggleInstructions(){
         if(this.items.length !== 0) {
             document.querySelector('#instructions').style.display = 'none';  
-         } 
+        } else {
+            document.querySelector('#instructions').style.display = 'block';
+        } 
     }
 }
