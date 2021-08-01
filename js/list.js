@@ -3,6 +3,15 @@ class List{
         this.title = t;
         this.items = [];
         this.listTotal;
+
+        
+        this.displayTitle();
+        // add a click event listener to edit the title
+        let listTitle = document.querySelector("#list-title");
+        listTitle.addEventListener('click', e => {
+            console.log('title clicked');
+            this.editListTitle();
+        });
     }
 
     createListItem(arr){
@@ -48,53 +57,89 @@ class List{
             <h1 id="list-title" class="col">${this.title}</h1>
         `
         titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
+
         
-        let listTitle = document.querySelector("#list-title");
-        listTitle.addEventListener('click', e => this.editListTitle(this.title));
     }
 
-    editListTitle(oldTitle) {
+    displayListItems(arr){
+        // reset list container html to avoid duplicates
+        this.resetHTML(this.listContainer);
+        
+        if(arr.length !== 0) {
+            // loop through the array and display each item in the html
+            arr.forEach(item => {
+                console.log(item.name);
+                let htmlToAdd = 
+                    `   
+                    <li class="list-group-item pb-0" data-js="${item.idNumber}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="completed" value="true" id="isComplete">
+                                <label class="form-check-label" for="isComplete">
+                                    <div class="d-flex">
+                                        <section id="item-photo-container">
+                                            <img id="item-photo" src="${item.imageSource}" alt="item photo">
+                                        </section>
+                                        <section id="item-info" class="w-100" >
+                                            <div class="d-flex justify-content-between mb-0">
+                                                <h2 id="item-name">${item.name}</h2>
+                                                <h2 id="item-cost">$ ${item.getTotalCost().toFixed(2)}</h2>
+                                            </div>
+                                            <p id="item-store">${item.store}</p>
+                                            <p id="item-quantity">Qty: ${item.quantity}</p>
+                                        </section>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-dark btn-sm border-0" id="delete-btn"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </li>
+                    `;
+                this.listContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
+                let listItem = document.querySelector(`[data-js = "${item.idNumber}"]`);
+
+                let deleteButton = listItem.querySelector('#delete-btn');
+                deleteButton.addEventListener("click", e => this.deleteItem(listItem));
+
+                
+                let checkbox = listItem.querySelector('#isComplete');
+                checkbox.addEventListener("input", e => this.markComplete(item));
+            })
+        };
+    }
+
+    editListTitle() {
+        // select the title container
         let titleContainer = document.querySelector('#list-title-container');
+        // clear the current html so the current list title doesn't display
+        titleContainer.innerHTML = "";
+        
+        // display the form with the current title
         let htmlToAdd = 
         `
         <form id="title-form" class="d-flex">
-            <input id="list-title-input" class="form-control" type="text" value="${oldTitle}"  aria-label=".form-control-lg" required>
-            <button id="title-submit-btn" class="btn btn-outline-dark" type="button">create</button>
+            <input id="list-title-input" class="form-control" type="text" value="${this.title}"  aria-label=".form-control-lg" required>
+            <button id="title-change-btn" class="btn btn-outline-dark" type="button">change</button>
         </form>
         `
         titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
-        let listTitleField = document.querySelector('#list-title-input');
-        
-        newList.title = listTitleField.value;
 
-        this.displayListTitle();
+        // listen for the "change" button click
+        let titleChangeBtn = titleContainer.querySelector('#title-change-btn');
+        titleChangeBtn.addEventListener('click', e => {
+            // grab the new title and change this list's title
+            let editedTitle = titleContainer.querySelector('#list-title-input').value;
+            this.title = editedTitle;
+        });
 
+        // display the new title
+        this.displayTitle();
     }
 
-  
- 
-
-    displayTotal(){
-        
-        if(!this.listTotal){
-            console.error("no list total", this.listTotal);
-        }
-        let listTotalContainer = document.querySelector('#total-container');
-        
-        this.resetHTML(listTotalContainer);
     
-        let htmlToAdd = 
-        `
-        <h3>Total</h3>
-        <h3 class="total"><span>$</span>${Number(this.listTotal).toFixed(2)}</span></h3>
-        `
-        listTotalContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
-        
-    }
-
     getListTotal(){
         this.listTotal = 0;
-        this.currentList.forEach(item => {
+        this.items.forEach(item => {
             this.listTotal = this.listTotal + item.getTotalCost();
         });
     }
