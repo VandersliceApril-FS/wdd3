@@ -3,33 +3,39 @@ class Main{
         // when a new list is created, add it to this array to access later.
         this.lists = [];
         this.currentList = [];
+        this.completedItems = [];
         this.listContainer = document.querySelector('#list-container');
         this.listTotal = 0;
         this.main = document.querySelector('main');
-        console.log(`beginning list total: ${this.listTotal}`);
+        this.myStorage = window.localStorage;
+        
+        
 
+        this.displayTitleForm();
+        
         // listen for title submission
-        let submitTitleBtn = document.querySelector('#title-submit-btn');
-        submitTitleBtn.addEventListener('click', e => this.createList());
+        // let submitTitleBtn = document.querySelector('#title-submit-btn');
+        // submitTitleBtn.addEventListener('click', e => this.createList());
 
         // listen for form submission
         this.formModal = document.querySelector('#add-item-modal');
         let submitBtn = this.formModal.querySelector('#modal-submit-btn');
-        submitBtn.addEventListener("click", e => this.createListItem());
+        submitBtn.addEventListener("click", e => this.createListItem(this.currentList));
+
     }
 
-    markComplete(id) {
-        let itemToComplete = document.querySelector(`[data-js = "${this.currentList[id]}"]`)
-        itemToComplete.classList.toggle("completed");
-    }
-    
-    createList(){
+    createList(e){
+        // listen for title submission
+        
+
         let listTitleField = document.querySelector('#list-title-input');
         let newList = new List();
         newList.title = listTitleField.value;
         this.lists.push(newList);
-        this.displayListTitle(newList.title);
-        this.displayAddButton();
+        console.log(this.lists);
+        newList.displayTitle();
+        
+        this.displayAddButton(); // check to make sure one isn't already there
 
         let htmlToAdd = 
         `
@@ -39,51 +45,23 @@ class Main{
         </section>
         `
         this.main.insertAdjacentHTML('beforeend', htmlToAdd);
-        
     }
 
-    createListItem(){
-        // create a new list item object
-        let newItem = new ListItemDO();
-
-        //gather the data from the form
-        
-        newItem.name =  document.querySelector('#name-field').value;
-        newItem.cost = Number(document.querySelector('#cost-field').value);
-        newItem.store = document.querySelector('#store-field').value;
-        newItem.quantity = Number(document.querySelector('#quantity-field').value);
-        
-        if(document.querySelector('#image-link').value == "") {
-            newItem.imageSource = 'images/box.jpg';
-        } else {
-            newItem.imageSource = document.querySelector('#image-link').value;
-        }
-        
-        
-        // add the item to the currentList
-        this.currentList.push(newItem);
-        
-        console.log(this.currentList.length)
-        // give the new item an ID number using the item's index in the array
-        newItem.idNumber = this.currentList.indexOf(newItem);
-
-        // update the list total
-        this.getListTotal();
-        this.displayTotal();
-        // call the function to display items in the html
-        this.displayListItems(this.currentList);
-        document.querySelector('form').reset();
-        this.toggleInstructions();
-    }
-
-    displayListTitle(title){
+    displayTitleForm(){
         let titleContainer = document.querySelector('#list-title-container');
-        titleContainer.innerHTML = "";
+        this.resetHTML(titleContainer);
         let htmlToAdd = 
         `
-            <h1 id="list-title" class="col">${title}</h1>
+        <form id="title-form" class="d-flex">
+            <input id="list-title-input" class="form-control" type="text" placeholder="Give your list a name"  aria-label=".form-control-lg" required>
+            <button id="title-submit-btn" class="btn btn-outline-dark" type="button">create</button>
+        </form>
         `
+
         titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
+
+        let submitTitleBtn = document.querySelector('#title-submit-btn');
+        submitTitleBtn.addEventListener('click', e => this.createList(e));
     }
 
 
@@ -91,46 +69,58 @@ class Main{
         // reset list container html to avoid duplicates
         this.resetHTML(this.listContainer);
         
-        
-        // loop through the array and display each item in the html
-        arr.forEach(item => {
-            console.log(item.name);
-            let htmlToAdd = 
-                `   
-                <li class="list-group-item pb-0" data-js="${item.idNumber}">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="isComplete">
-                            <label class="form-check-label" for="isComplete">
-                                <div class="d-flex">
-                                    <section id="item-photo-container">
-                                        <img id="item-photo" src="${item.imageSource}" alt="item photo">
-                                    </section>
-                                    <section id="item-info" class="w-100" >
-                                        <div class="d-flex justify-content-between mb-0">
-                                            <h2 id="item-name">${item.name}</h2>
-                                            <h2 id="item-cost">$ ${item.getTotalCost().toFixed(2)}</h2>
-                                        </div>
-                                        <p id="item-store">${item.store}</p>
-                                        <p id="item-quantity">Qty: ${item.quantity}</p>
-                                    </section>
-                                </div>
-                            </label>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <button data-js="${item.idNumber}" class="btn btn-outline-dark btn-sm border-0" id="more-btn"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </li>
-                `;
-            this.listContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
-            let deleteButton = document.querySelector(`[data-js = "${item.idNumber}"]`);
-            deleteButton.addEventListener("click", e => this.deleteItem(`${item.idNumber}`));
+        if(arr.length !== 0) {
+            // loop through the array and display each item in the html
+            arr.forEach(item => {
+                console.log(item.name);
+                let htmlToAdd = 
+                    `   
+                    <li class="list-group-item pb-0" data-js="${item.idNumber}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="completed" value="true" id="isComplete">
+                                <label class="form-check-label" for="isComplete">
+                                    <div class="d-flex">
+                                        <section id="item-photo-container">
+                                            <img id="item-photo" src="${item.imageSource}" alt="item photo">
+                                        </section>
+                                        <section id="item-info" class="w-100" >
+                                            <div class="d-flex justify-content-between mb-0">
+                                                <h2 id="item-name">${item.name}</h2>
+                                                <h2 id="item-cost">$ ${item.getTotalCost().toFixed(2)}</h2>
+                                            </div>
+                                            <p id="item-store">${item.store}</p>
+                                            <p id="item-quantity">Qty: ${item.quantity}</p>
+                                        </section>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-dark btn-sm border-0" id="delete-btn"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </li>
+                    `;
+                this.listContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
+                let listItem = document.querySelector(`[data-js = "${item.idNumber}"]`);
 
-           
-        });
+                let deleteButton = listItem.querySelector('#delete-btn');
+                deleteButton.addEventListener("click", e => this.deleteItem(listItem));
+
+                
+                let checkbox = listItem.querySelector('#isComplete');
+                checkbox.addEventListener("input", e => this.markComplete(item));
+            })
+        };
     }
 
-    deleteItem(idNum){
-        this.currentList.splice(idNum, 1);
+    markComplete(itemToComplete) {
+
+        let markCompleted = document.querySelector(`[data-js = "${itemToComplete.idNumber}"]`);
+        markCompleted.classList.add("completed");
+        
+    }
+
+    deleteItem(itemToDelete){
+        this.currentList.splice(itemToDelete.idNumber, 1);
         
         
         this.displayListItems(this.currentList);
@@ -140,30 +130,7 @@ class Main{
         this.toggleInstructions();
     }
 
-    displayTotal(){
-        
-        if(!this.listTotal){
-            console.error("no list total", this.listTotal);
-        }
-        let listTotalContainer = document.querySelector('#total-container');
-        
-        this.resetHTML(listTotalContainer);
     
-        let htmlToAdd = 
-        `
-        <h3>Total</h3>
-        <h3 class="total"><span>$</span>${Number(this.listTotal).toFixed(2)}</span></h3>
-        `
-        listTotalContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
-        
-    }
-
-    getListTotal(){
-        this.listTotal = 0;
-        this.currentList.forEach(item => {
-            this.listTotal = this.listTotal + item.getTotalCost();
-        });
-    }
 
     displayAddButton(){
         let htmlToAdd = 
@@ -188,9 +155,7 @@ class Main{
             document.querySelector('#instructions').style.display = 'none';  
          } 
     }
-
-
-    
+ 
 }
 
 
