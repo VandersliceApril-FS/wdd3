@@ -18,10 +18,11 @@ class Main{
 
     displayTitleForm(){
         let titleContainer = document.querySelector('#list-title-container');
+        titleContainer.innerHTML = "";
         let htmlToAdd = 
         `
         <form id="title-form" class="d-flex">
-            <input id="list-title-input" class="form-control" type="text" placeholder="Give your list a name"  aria-label=".form-control-lg" required>
+            <input id="list-title-input" class="form-control" type="text" placeholder="Give your list a name" required aria-label=".form-control-lg">
             <button id="title-submit-btn" class="btn btn-outline-dark" type="button">create</button>
         </form>
         `
@@ -29,17 +30,35 @@ class Main{
         titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
     }
 
+    displayEmptyTitleAlert(){
+        let header = document.querySelector('header');
+        let alertHTML = 
+        `
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            List Title cannot be blank.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        `
+        header.insertAdjacentHTML('beforeend', alertHTML);
+    }
+
     handleTitleSubmitClick(e){
         let form = document.querySelector('form');
         // select the input field and grab the value
         let titleInput = form.querySelector('#list-title-input') .value;
-        console.log(`title collected: ${titleInput}`);
+
+        if (titleInput === "") {
+            this.displayEmptyTitleAlert();
+        } else {
+            console.log(`title collected: ${titleInput}`);
         // create a new list object
         let newList = new List(titleInput);
         this.currentList = newList;
 
         // add to the app's list of lists
         this.lists.push(newList);
+        }
+        
     }
 
 
@@ -65,11 +84,7 @@ class Main{
 
     
 
-    toggleInstructions(){
-        if(this.currentList.length !== 0) {
-            document.querySelector('#instructions').style.display = 'none';  
-         } 
-    }
+ 
  
 }
 

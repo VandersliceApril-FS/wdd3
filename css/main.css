@@ -57,6 +57,11 @@ header {
     font-size: 1.2rem;
 }
 
+#list-title:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 #instructions {
     margin-top: .75rem;
     padding-right: 1rem;

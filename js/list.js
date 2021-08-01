@@ -170,7 +170,6 @@ class List{
             <button id="title-change-btn" class="btn btn-outline-dark" type="button">change</button>
         </form>
         `;
-        debugger
 
         // listen for the "change" button click
         this.titleContainer.querySelector('#title-change-btn').addEventListener('click', evt => {
