@@ -140,15 +140,15 @@ class List{
                                 </label>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <button class="btn btn-outline-dark btn-sm border-0" id="delete-btn"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-outline-dark btn-sm border-0" deleteId-js="${item.idNumber}" id="delete-btn"><i class="fas fa-trash"></i></button>
                             </div>
                         </li>
                     `;
                 this.listContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
                 let listItem = document.querySelector(`[data-js = "${item.idNumber}"]`);
 
-                let deleteButton = listItem.querySelector('#delete-btn');
-                deleteButton.addEventListener("click", e => this.deleteItem(listItem));
+                let deleteButton = listItem.querySelector(`[deleteID-js="${item.idNumber}"]`);
+                deleteButton.addEventListener("click", e => this.deleteItem(item.idNumber));
 
                 
                 let checkbox = listItem.querySelector('#isComplete');
@@ -160,8 +160,8 @@ class List{
 
     }
 
-    deleteItem(itemToDelete){
-        this.items.splice(itemToDelete.idNumber, 1);
+    deleteItem(id){
+        this.items.splice(id, 1);
         
         
         this.displayListItems();

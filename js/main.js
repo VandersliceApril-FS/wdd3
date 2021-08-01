@@ -62,29 +62,6 @@ class Main{
     }
 
 
-    markComplete(itemToComplete) {
-
-        let markCompleted = document.querySelector(`[data-js = "${itemToComplete.idNumber}"]`);
-        markCompleted.classList.add("completed");
-        
-    }
-
-    deleteItem(itemToDelete){
-        this.currentList.splice(itemToDelete.idNumber, 1);
-        
-        
-        this.displayListItems(this.currentList);
-        
-        this.getListTotal();
-        this.displayTotal();
-        this.toggleInstructions();
-    }
-
-    
-
-    
-
- 
  
 }
 
