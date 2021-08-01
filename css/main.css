@@ -9,11 +9,6 @@ body {
     min-width: 100%;
 }
 
-.completed {
-    background: lightcoral;
-    text-decoration: line-through;
-}
-
 
 
 #item-photo-container {

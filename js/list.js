@@ -152,7 +152,7 @@ class List{
 
                 
                 let checkbox = listItem.querySelector('#isComplete');
-                checkbox.addEventListener("input", e => this.markComplete(item));
+                checkbox.addEventListener("change", e => this.markComplete(item));
             })
         } else {
             this.toggleInstructions();
