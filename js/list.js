@@ -9,6 +9,9 @@ class List{
         this.displayTitle();
         this.displayAddButton();
         this.displayTotal();
+
+        let listTitle = document.querySelector('#list-title');
+        listTitle.addEventListener("click", e => this.editListTitle());
         
         // listen for form submission
         this.formModal = document.querySelector('#add-item-modal');
@@ -72,6 +75,8 @@ class List{
         `
         this.titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
         
+        let listTitle = document.querySelector('#list-title');
+        listTitle.addEventListener("click", e => this.editListTitle());
     }
 
     displayTotal(){
@@ -100,6 +105,8 @@ class List{
         <h3 class="total"><span>$</span>${Number(this.listTotal).toFixed(2)}</span></h3>
         `
         listTotalContainer.insertAdjacentHTML('afterbegin', htmlTotal);
+
+        
         
     }
 
@@ -150,9 +157,9 @@ class List{
         };
     }
 
-    editListTitle(e) {
+    editListTitle() {
         console.log("list title clicked");
-        console.log(e);
+        console.log();
         
         // clear the current html so the current list title doesn't display
         // display the form with the current title
@@ -169,11 +176,11 @@ class List{
         this.titleContainer.querySelector('#title-change-btn').addEventListener('click', evt => {
             console.log('change title button clicked')
             // grab the new title and change this list's title
-            this.title = this.titleContainer.querySelector('#list-title-input').value;;
+            this.title = this.titleContainer.querySelector('#list-title-input').value;
+            // display the new title
+            this.displayTitle();
         });
-
-        // display the new title
-        this.displayTitle();
+        
     }
 
     
