@@ -3,18 +3,20 @@ class List{
         this.title = t;
         this.items = [];
         this.listTotal;
-
+        this.titleContainer = document.querySelector('#list-title-container');
+        this.listContainer = document.querySelector('#list-container');
         
         this.displayTitle();
-        // add a click event listener to edit the title
-        let listTitle = document.querySelector("#list-title");
-        listTitle.addEventListener('click', e => {
-            console.log('title clicked');
-            this.editListTitle();
-        });
+        this.displayAddButton();
+        this.displayTotal();
+        
+        // listen for form submission
+        this.formModal = document.querySelector('#add-item-modal');
+        let submitBtn = this.formModal.querySelector('#modal-submit-btn');
+        submitBtn.addEventListener("click", e => this.createListItem(this.currentList));
     }
 
-    createListItem(arr){
+    createListItem(){
         // create a new list item object
         let newItem = new ListItemDO();
 
@@ -33,41 +35,81 @@ class List{
         
         
         // add the item to the currentList
-        arr.push(newItem);
-        
-        // give the new item an ID number using the item's index in the array
-        newItem.idNumber = arr.indexOf(newItem);
+        this.items.push(newItem);
 
-        // update local storage
-        this.saveToLocal();
-        // update the list total
-        this.getListTotal();
+        // give the new item an ID number using the item's index in the array
+        newItem.idNumber = this.items.indexOf(newItem);
+        
         this.displayTotal();
         // call the function to display items in the html
-        this.displayListItems(arr);
+        this.displayListItems(this.items);
         document.querySelector('form').reset();
         this.toggleInstructions();
     }
 
+
+
+    displayAddButton(){
+        let htmlToAdd = 
+        `
+            <!-- Button to trigger modal -->
+            <div id="add-btn-container" class="d-flex justify-content-end">
+                <p id="instructions">Add an item to this list.</p>    
+                <button id="add-item-btn" type="button" class="btn btn-dark btn-lg rounded-circle" data-bs-toggle="modal" data-bs-target="#add-item-modal">+</button>
+            </div>
+        `;
+        let listSection = document.querySelector('#list-section');
+
+        listSection.insertAdjacentHTML('afterend', htmlToAdd);
+    }
+
     displayTitle(){
-        let titleContainer = document.querySelector('#list-title-container');
-        titleContainer.innerHTML = "";
+        
+        this.titleContainer.innerHTML = "";
         let htmlToAdd = 
         `
             <h1 id="list-title" class="col">${this.title}</h1>
         `
-        titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
-
+        this.titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
         
     }
 
-    displayListItems(arr){
-        // reset list container html to avoid duplicates
-        this.resetHTML(this.listContainer);
+    displayTotal(){
+        let main = document.querySelector('main');
+        this.getListTotal();
         
-        if(arr.length !== 0) {
+
+        if(!this.listTotal){
+            console.error("no list total", this.listTotal);
+            let htmlToAdd = 
+        `
+        <section id="total-container"  class="d-flex w-100 justify-content-between mt-3 fixed-bottom">
+            <h3>Total</h3>
+            <h3 class="total"><span>$</span>0</h3>
+        </section>
+        `
+        main.insertAdjacentHTML('beforeend', htmlToAdd);
+        } 
+        
+        let listTotalContainer = document.querySelector('#total-container');
+        listTotalContainer.innerHTML = "";
+    
+        let htmlTotal = 
+        `
+        <h3>Total</h3>
+        <h3 class="total"><span>$</span>${Number(this.listTotal).toFixed(2)}</span></h3>
+        `
+        listTotalContainer.insertAdjacentHTML('afterbegin', htmlTotal);
+        
+    }
+
+    displayListItems(){
+        // reset list container html to avoid duplicates
+        this.listContainer.innerHTML = "";
+        
+        if(this.items.length !== 0) {
             // loop through the array and display each item in the html
-            arr.forEach(item => {
+            this.items.forEach(item => {
                 console.log(item.name);
                 let htmlToAdd = 
                     `   
@@ -108,28 +150,26 @@ class List{
         };
     }
 
-    editListTitle() {
-        // select the title container
-        let titleContainer = document.querySelector('#list-title-container');
-        // clear the current html so the current list title doesn't display
-        titleContainer.innerHTML = "";
+    editListTitle(e) {
+        console.log("list title clicked");
+        console.log(e);
         
+        // clear the current html so the current list title doesn't display
         // display the form with the current title
-        let htmlToAdd = 
+        this.titleContainer.innerHTML = 
         `
         <form id="title-form" class="d-flex">
             <input id="list-title-input" class="form-control" type="text" value="${this.title}"  aria-label=".form-control-lg" required>
             <button id="title-change-btn" class="btn btn-outline-dark" type="button">change</button>
         </form>
-        `
-        titleContainer.insertAdjacentHTML('afterbegin', htmlToAdd);
+        `;
+        debugger
 
         // listen for the "change" button click
-        let titleChangeBtn = titleContainer.querySelector('#title-change-btn');
-        titleChangeBtn.addEventListener('click', e => {
+        this.titleContainer.querySelector('#title-change-btn').addEventListener('click', evt => {
+            console.log('change title button clicked')
             // grab the new title and change this list's title
-            let editedTitle = titleContainer.querySelector('#list-title-input').value;
-            this.title = editedTitle;
+            this.title = this.titleContainer.querySelector('#list-title-input').value;;
         });
 
         // display the new title
@@ -142,5 +182,11 @@ class List{
         this.items.forEach(item => {
             this.listTotal = this.listTotal + item.getTotalCost();
         });
+    }
+
+    toggleInstructions(){
+        if(this.items.length !== 0) {
+            document.querySelector('#instructions').style.display = 'none';  
+         } 
     }
 }
