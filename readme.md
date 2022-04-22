@@ -1,6 +1,8 @@
 # Milestone 3: Development
+The first version of an idea I had for an app that totals everything on your shopping list as you add items. It's built using HTML, Bootstrap, and Javascript. This was my first experience with the benefits and limitations of Bootstrap.
 
-Using the website design created in weeks 1 and 2, I'll start building out the project using what I've learned about Bootstrap this week. The project will be glitch and bug free and functional for all users regardless of device size.
+[view List Total v1 Demo](https://aprilvanderslice.github.io/Totalist_v1/)
+
 
 ## Focus
 Leveling up from previous projects by learning more about image optimization and using a framework. 
